@@ -19,7 +19,7 @@
     <div class="container">
         <h1>TCP Connection Checker</h1>
         <form action="#" th:action="@{/check-tcp-connection}" method="get">
-            <label for="fqdn">FQDN:</label>
+            <label for="fqdn">FQDN or IP:</label>
             <input type="text" id="fqdn" name="fqdn" required>
             <label for="port">Port:</label>
             <input type="number" id="port" name="port" min="1" max="65535" required>

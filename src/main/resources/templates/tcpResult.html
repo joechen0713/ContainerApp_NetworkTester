@@ -8,7 +8,7 @@
     <div class="container">
         <h1>TCP Connection Checker</h1>
         <div th:if="${result}">
-            <h2>Result for FQDN: <span th:text="${inputFqdn}"></span> on Port: <span th:text="${inputPort}"></span></h2>
+            <h2>Result for: <span th:text="${inputFqdn}"></span> on Port: <span th:text="${inputPort}"></span></h2>
             <pre th:text="${result}"></pre>
         </div>
         <a href="/test-tcp-connection">Check another TCP Connection</a>

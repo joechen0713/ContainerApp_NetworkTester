@@ -44,6 +44,9 @@
 <body>
     <div class="container">
         <h1>Run TCP Dump</h1>
+        <div style="background-color: #d4edda; padding: 10px; border: 1px solid #c3e6cb; border-radius: 5px; margin-bottom: 15px;">
+            If the TCP dump runs for over 4 minutes, it will disconnect due to the load balancer's idle timeout. You can still download the network dump file from the 'Download TCP Dump Files' page after the process completes
+        </div>
         <form onsubmit="handleSubmit(event)" method="post" action="/run-tcpdump">
             <label for="duration">Duration (seconds):</label>
             <input type="number" id="duration" placeholder="30 ~ 600" name="duration" min="30" max="600" required>

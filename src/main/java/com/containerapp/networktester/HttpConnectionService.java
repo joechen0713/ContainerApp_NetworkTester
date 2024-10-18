@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.StringWriter;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -19,7 +19,8 @@ public class HttpConnectionService {
     }
 
     public Mono<String> checkHttpConnection(String url) {
-        String dnsInfo = getDnsInfo(url);
+        String ipAddress = resolveIpAddress(url);
+
         return webClient.get()
                 .uri(url)
                 .retrieve()
@@ -27,41 +28,25 @@ public class HttpConnectionService {
                 .map(response -> {
                     boolean isAlive = response.getStatusCode().is2xxSuccessful();
                     String httpResponse = "HTTP Status: " + response.getStatusCode() + "\nResponse Body: " + response.getBody();
-                    return isAlive ? "Connection is alive. " + dnsInfo + "\n" + httpResponse : "Connection is dead. " + dnsInfo + "\n" + httpResponse;
+                    String ipInfo = ipAddress != null ? "Resolved IP: " + ipAddress : "IP resolution failed.";
+                    return isAlive ? "Connection is alive. " + ipInfo + "\n" + httpResponse : "Connection is dead. " + ipInfo + "\n" + httpResponse;
                 })
-                .onErrorResume(e -> Mono.just("Connection failed. " + dnsInfo + "\nError: " + e.getMessage()));
+                .onErrorResume(e -> Mono.just("Connection failed. " + (ipAddress != null ? "Resolved IP: " + ipAddress : "IP resolution failed.") 
+                        + "\nError: " + getStackTraceAsString(e)));
     }
 
-    private String getDnsInfo(String url) {
-        String dnsServer = getDnsServer(url);
+    private String resolveIpAddress(String url) {
         try {
             InetAddress inetAddress = InetAddress.getByName(new java.net.URL(url).getHost());
-            String ipAddress = inetAddress.getHostAddress();
-            return "Resolved IP: " + ipAddress + "\nDNS Server: " + dnsServer;
+            return inetAddress.getHostAddress();
         } catch (UnknownHostException | java.net.MalformedURLException e) {
-            return "DNS resolution failed. DNS Server: " + dnsServer + "\nError: " + e.getMessage();
+            return null;
         }
     }
 
-    private String getDnsServer(String url) {
-        String dnsServer = "Unknown";
-        try {
-            String host = new java.net.URL(url).getHost();
-            Process process = Runtime.getRuntime().exec("dig " + host);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.contains("SERVER")) {
-                	String tempLine[] = line.split(":");
-                	if(tempLine.length>1) {
-                        dnsServer = tempLine[1].trim();
-                        break;
-                	}
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return dnsServer;
+    private String getStackTraceAsString(Throwable e) {
+        StringWriter sw = new StringWriter();
+        e.printStackTrace(new PrintWriter(sw));
+        return sw.toString();
     }
 }
