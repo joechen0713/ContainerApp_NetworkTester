@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>TCP Connection Checker</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script>
+        function validateForm(event) {
+            var port = document.getElementById('port').value;
+
+            // Check if the port number is within the valid range (1-65535)
+            if (port < 1 || port > 65535) {
+                alert("Please enter a valid port number (between 1 and 65535).");
+                event.preventDefault(); // Prevent form submission if invalid
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>TCP Connection Checker</h1>
+        <form action="#" th:action="@{/check-tcp-connection}" method="get">
+            <label for="fqdn">FQDN:</label>
+            <input type="text" id="fqdn" name="fqdn" required>
+            <label for="port">Port:</label>
+            <input type="number" id="port" name="port" min="1" max="65535" required>
+            <button type="submit">Check Connection</button>
+        </form>
+        <a href="/">Back to Home</a>
+    </div>
+</body>
+</html>

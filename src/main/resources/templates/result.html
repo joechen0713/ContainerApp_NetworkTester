@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>HTTPS Connection Checker</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>HTTPS Connection Checker</h1>
+        <div th:if="${result}">
+            <h2>Result for URL: <span th:text="${inputUrl}"></span></h2>
+            <pre th:text="${result}"></pre>
+        </div>
+        <a href="/test-https-connection">Check another HTTPS Connection</a>
+        <a href="/">Back to Home</a>
+    </div>
+</body>
+</html>

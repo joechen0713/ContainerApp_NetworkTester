@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download TCP Dump Files</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .file-item a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .file-item a:hover {
+            text-decoration: underline;
+        }
+
+        .file-item form {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Download TCP Dump Files</h1>
+        <ul>
+            <li th:each="file : ${files}" class="file-item">
+                <a th:href="@{/download(fileName=${file})}" th:text="${file}"></a>
+                <form th:action="@{/delete}" method="post">
+                    <input type="hidden" name="fileName" th:value="${file}">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        </ul>
+        <a href="/">Back to Home</a>
+    </div>
+</body>
+</html>

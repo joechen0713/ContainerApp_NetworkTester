@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connection Checker</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .nav-item {
+            margin: 0 15px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .nav-item:hover {
+            background-color: #0056b3;
+        }
+
+        .header {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #333;
+        }
+
+        .content {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .content p {
+            font-size: 1.2em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Connection Checker</h1>
+            <p>Welcome to the Connection Checker application. Choose an option below to get started.</p>
+        </div>
+        <div class="nav">
+            <a class="nav-item" href="/test-https-connection">Test HTTPS Connection (Layer 7)</a>
+            <a class="nav-item" href="/test-tcp-connection">Test TCP Connection (Layer 4)</a>
+            <a class="nav-item" href="/test-tcpdump">Run TCP Dump</a>
+            <a class="nav-item" href="/download-tcpdump">Download TCP Dump Files</a>
+        </div>
+    </div>
+</body>
+</html>
