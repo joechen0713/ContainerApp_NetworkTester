@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ConnectionController {
-
     @Autowired
     private HttpConnectionService httpConnectionService;
 
     @Autowired
     private TcpConnectionService tcpConnectionService;
+
+    @Autowired
+    private DigService digService;
 
     @GetMapping("/")
     public String home() {
@@ -48,5 +50,23 @@ public class ConnectionController {
         model.addAttribute("inputFqdn", fqdn);
         model.addAttribute("inputPort", port);
         return "tcpResult";
+    }
+
+    @GetMapping("/test-dig")
+    public String showDigForm() {
+        return "digForm";
+    }
+
+    @GetMapping("/check-dig")
+    public String checkDig(@RequestParam String fqdn, @RequestParam(required = false) String dnsServer, Model model) {
+        String command = "dig " + fqdn;
+        if (dnsServer != null && !dnsServer.isEmpty()) {
+            command += " @" + dnsServer;
+        }
+        String result = digService.runDig(fqdn, dnsServer);
+        model.addAttribute("result", result);
+        model.addAttribute("inputFqdn", fqdn);
+        model.addAttribute("command", command); // Add this line
+        return "digResult";
     }
 }

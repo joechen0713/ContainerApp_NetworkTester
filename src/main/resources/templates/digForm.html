@@ -1,0 +1,21 @@
+<!-- src/main/resources/templates/digForm.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DNS dig Checker</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>DNS dig Checker</h1>
+        <form action="#" th:action="@{/check-dig}" method="get">
+            <label for="fqdn">FQDN:</label>
+            <input type="text" id="fqdn" name="fqdn" required>
+            <label for="dnsServer">DNS Server (optional):</label>
+            <input type="text" id="dnsServer" name="dnsServer">
+            <button type="submit">Run dig</button>
+        </form>
+        <a href="/">Back to Home</a>
+    </div>
+</body>
+</html>

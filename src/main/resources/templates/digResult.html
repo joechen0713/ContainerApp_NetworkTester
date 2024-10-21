@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DNS dig Result</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>DNS dig Result</h1>
+        <div th:if="${result}">
+            <h2>Result for: <span th:text="${inputFqdn}"></span></h2>
+            <h3>Command: <code th:text="${command}"></code></h3>
+            <pre th:text="${result}"></pre>
+        </div>
+        <a href="/test-dig">Run another dig</a>
+        <a href="/">Back to Home</a>
+    </div>
+</body>
+</html>
