@@ -15,7 +15,13 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jdk-alpine
 
 # Install dnsutils for nslookup and tcpdump
-RUN apk add --no-cache bind-tools tcpdump
+RUN apk add --no-cache bind-tools tcpdump tcptraceroute
+
+# Install tcpping
+RUN wget -P /usr/bin http://www.vdberg.org/~richard/tcpping && \
+    chmod 755 /usr/bin/tcpping
+WORKDIR /app
+
 
 # Create the dumps directory
 RUN mkdir -p /app/dumps
